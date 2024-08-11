@@ -45,36 +45,6 @@
         document.getElementById('progress').textContent = progress > 0.0 ? progress.toFixed(2) : 0.0;
         document.getElementById('daysUntilEnd').textContent = daysUntilEnd > 0.0 ? Math.ceil(daysUntilEnd).toFixed(0) : 0.0;
         document.getElementById('daysUntilClassDroppingSeasonStarts').textContent = daysUntilClassDroppingSeasonStarts > 0.0 ? Math.ceil(daysUntilClassDroppingSeasonStarts).toFixed(0) : 0.0;
-        
-
-        function readCSVFile(){
-            fetch('./salas.csv')
-            .then(response => response.text())
-            .then(csvText => {
-            // Split the CSV data into rows
-            const rowData = csvText.split('\n');
-            
-            var tbodyEl = document.getElementById('tblcsvdata').getElementsByTagName('tbody')[0];
-            tbodyEl.innerHTML = "";
-            
-            // Loop on the row Array (change row=0 if you also want to read 1st row)
-            for (var row = 1; row < rowData.length; row++) {
-                // Insert a row at the end of table
-                var newRow = tbodyEl.insertRow();
-                // Split by comma (;) to get column Array
-                rowColData = rowData[row].split(',');
-                // Loop on the row column Array
-                for (var col = 0; col < rowColData.length; col++) {
-                // Insert a cell at the end of the row
-                var newCell = newRow.insertCell();
-                newCell.innerHTML = rowColData[col];
-                }
-            }
-            });}
-
-            readCSVFile();
-       
-        
 });
 
  
@@ -83,7 +53,7 @@
     <button onclick="topFunction()" id="myBtn" title="Voltar para o topo">Menu</button>
 
     <header>
-        <h1>Pocketguide 24.1 - IC UFRJ</h1>
+        <h1>FAQ 24.1 - IC UFRJ</h1>
         <nav>
             <a href="#progressSection">Status</a>
             <a href="#calendarSection">Calendário</a>
@@ -122,10 +92,10 @@
                     </tr>
                 </thead>
                     <tbody>
-                        <tr><td>Aulas</td><td>12/08/2024</td><td>14/12/2024</td></tr>
-                        <tr><td>Inscrição</td><td>12/08/2024</td><td>12/08/2024</td></tr>
-                        <tr><td>Alteração</td><td>12/08/2024</td><td>12/08/2024</td></tr>
-                        <tr><td>Trancamento</td><td>01/08/2024</td><td>01/08/2024</td></tr>
+                        <tr><td data-cell="Período">Aulas</td><td data-cell="Início">12/08/2024</td><td data-cell="Fim">14/12/2024</td></tr>
+                        <tr><td data-cell="Período">Inscrição</td><td data-cell="Início">12/08/2024</td><td data-cell="Fim">12/08/2024</td></tr>
+                        <tr><td data-cell="Período">Alteração</td><td data-cell="Início">12/08/2024</td><td data-cell="Fim">12/08/2024</td></tr>
+                        <tr><td data-cell="Período">Trancamento</td><td data-cell="Início">01/08/2024</td><td data-cell="Fim">01/08/2024</td></tr>
                     </tbody>
             </table>
           
@@ -133,16 +103,32 @@
         </section>
         <section id="classLocationSection">
             <h3>Locais de Aula</h3>
-            <table id="tblcsvdata"">
+            <table id="tblcsvdata" "="">
                 <thead>
                   <tr>
                     <th>Disciplina</th>
-                    <th>Professor(a,e)</th>
+                    <th>Professor</th>
                     <th>Sala</th>
-                    <th>Horário(s)</th>
+                    <th>Horários</th>
                  </tr>
                 </thead>
                 <tbody>
+                    <tr>
+                        <td data-cell="Disciplina">Computação Social</td>
+                        <td data-cell="Professor">Adriana Vivacqua</td>
+                        <td data-cell="Sala">Sala Eliane Aúde (NCE)</td>
+                        <td data-cell="Horários">Qua 8h-12h</td></tr>
+                    <tr>
+                        <td data-cell="Disciplina">Tópicos Especiais em Programação</td>
+                        <td data-cell="Professor">Claudson Bornstein</td>
+                        <td data-cell="Sala">LAB1 (IC)</td>
+                        <td data-cell="Horários">Ter 8h-12h</td>
+                    </tr>
+                    <tr>
+                        <td data-cell="Disciplina">Governança e Gestão de Dados; Gestão do Conhecimento</td>
+                        <td data-cell="Professor">Maria Luiza Campos</td>
+                        <td data-cell="Sala">DLC (IC); LAB1 (IC)</td>
+                        <td data-cell="Horários">Qui 8h-10h; Qui 10h-12h</td></tr>
                 </tbody>
               </table>
         </section>
@@ -156,12 +142,12 @@
                     </tr>
                 </thead>
                     <tbody id="contactsTable">
-                        <tr><td>COAA</td><td>coaa@ic.ufrj.br</td></tr>
-                        <tr><td>Coordenação</td><td>coord_grad@ic.ufrj.br</td></tr>
-                        <tr><td>Secretaria</td><td>secgrad@ic.ufrj.br</td></tr>
-                        <tr><td>Comissão de Estágio</td><td>estagio@ic.ufrj.br</td></tr>
-                        <tr><td>Comissão de Atividades Complementares</td><td>coac@ic.ufrj.br</td></tr>
-                        <tr><td>Centro Acadêmico</td><td>cainfo@ic.ufrj.br</td></tr>
+                        <tr><td data-cell="Nome">COAA</td><td data-cell="Email">coaa@ic.ufrj.br</td></tr>
+                        <tr><td data-cell="Nome">Coordenação</td><td data-cell="Email">coord_grad@ic.ufrj.br</td></tr>
+                        <tr><td data-cell="Nome">Secretaria</td><td data-cell="Email">secgrad@ic.ufrj.br</td></tr>
+                        <tr><td data-cell="Nome">Comissão de Estágio</td><td data-cell="Email">estagio@ic.ufrj.br</td></tr>
+                        <tr><td data-cell="Nome">Comissão de Atividades Complementares</td><td data-cell="Email">coac@ic.ufrj.br</td></tr>
+                        <tr><td data-cell="Nome">Centro Acadêmico</td><td data-cell="Email">cainfo@ic.ufrj.br</td></tr>
                     </tbody>
             </table>
         </section>
@@ -176,12 +162,12 @@
                     </tr>
                 </thead>
                     <tbody id="contactsTable">
-                        <tr><td>Lorem</td><td>ipsum</td><td>dolor sit amet.</td></tr>
-                        <tr><td>Lorem</td><td>ipsum</td><td>dolor sit amet.</td></tr>
-                        <tr><td>Lorem</td><td>ipsum</td><td>dolor sit amet.</td></tr>
-                        <tr><td>Lorem</td><td>ipsum</td><td>dolor sit amet.</td></tr>
-                        <tr><td>Lorem</td><td>ipsum</td><td>dolor sit amet.</td></tr>
-                        <tr><td>Lorem</td><td>ipsum</td><td>dolor sit amet.</td></tr>
+                        <tr><td data-cell="Rota">Lorem</td><td data-cell="Horário de Saída">ipsum</td><td data-cell="Local de Saída">dolor sit amet.</td></tr>
+                        <tr><td data-cell="Rota">Lorem</td><td data-cell="Horário de Saída">ipsum</td><td data-cell="Local de Saída">dolor sit amet.</td></tr>
+                        <tr><td data-cell="Rota">Lorem</td><td data-cell="Horário de Saída">ipsum</td><td data-cell="Local de Saída">dolor sit amet.</td></tr>
+                        <tr><td data-cell="Rota">Lorem</td><td data-cell="Horário de Saída">ipsum</td><td data-cell="Local de Saída">dolor sit amet.</td></tr>
+                        <tr><td data-cell="Rota">Lorem</td><td data-cell="Horário de Saída">ipsum</td><td data-cell="Local de Saída">dolor sit amet.</td></tr>
+                        <tr><td data-cell="Rota">Lorem</td><td data-cell="Horário de Saída">ipsum</td><td data-cell="Local de Saída">dolor sit amet.</td></tr>
                     </tbody>
             </table>
         </section>       
