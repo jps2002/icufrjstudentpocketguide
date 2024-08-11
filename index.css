@@ -473,3 +473,18 @@ img {
 	background-color: #555;
   }
 
+  @media (max-width: 650px) {
+	th {
+		display: none;
+	}
+
+	td {
+		display: block;
+	}
+
+	td::before {
+		content: attr(data-cell) ": ";
+		font-weight: 700;
+	}
+	
+  }
