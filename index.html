@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <title>IC Pocketguide</title>
+</head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playwrite+MX:wght@100..400&display=swap" rel="stylesheet">
+<script>
+    window.addEventListener("load", () => {
+        var calendarObj = [{name: "Inscrição", startDate: new Date(2024,6,26), endDate: new Date(2024,7,5)},
+                            {name: "Alteração", startDate: new Date(2024,7,12), endDate: new Date(2024,7,23)},
+                            {name: "Trancamento", startDate: new Date(2024,7,30),endDate: new Date(2024,8,10)}];
+
+        const start = new Date(2024,7,12);
+        const end = new Date(2024,11,14);
+        const today = new Date();
+        //const today = new Date(2024,7,12);
+        const daysSinceBeginning = (today.getTime() - start.getTime())/ (1000 * 60 * 60 * 24);
+        const durationInDays = (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24);
+        const daysUntilEnd = (end.getTime() - today.getTime())/ (1000 * 60 * 60 * 24);
+        const progress = (daysSinceBeginning/durationInDays)*100;
+        const daysUntilClassDroppingSeasonStarts = (calendarObj[2].startDate.getTime() - today.getTime())/ (1000 * 60 * 60 * 24);
+
+        let currentName = "";
+        let currentEndingDate = "";
+        
+        for (item of calendarObj) {
+            if (today >= item.startDate && today <= item.endDate) {
+                currentName = item.name;
+                currentEndingDate = item.endDate.toLocaleDateString();
+                break;
+            }
+        }
+
+        if (currentName != "") {
+            const node = document.createElement("li");
+            const textnode = document.createTextNode(`Estamos no período de ${currentName}, que termina dia ${currentEndingDate}.`);
+            node.appendChild(textnode);
+            document.getElementById("progressList").appendChild(node);
+        }   
+        document.getElementById('progress').textContent = progress > 0.0 ? progress.toFixed(2) : 0.0;
+        document.getElementById('daysUntilEnd').textContent = daysUntilEnd > 0.0 ? Math.ceil(daysUntilEnd).toFixed(0) : 0.0;
+        document.getElementById('daysUntilClassDroppingSeasonStarts').textContent = daysUntilClassDroppingSeasonStarts > 0.0 ? Math.ceil(daysUntilClassDroppingSeasonStarts).toFixed(0) : 0.0;
+        
+
+        function readCSVFile(){
+            fetch('/salas.csv')
+            .then(response => response.text())
+            .then(csvText => {
+            // Split the CSV data into rows
+            const rowData = csvText.split('\n');
+            
+            var tbodyEl = document.getElementById('tblcsvdata').getElementsByTagName('tbody')[0];
+            tbodyEl.innerHTML = "";
+            
+            // Loop on the row Array (change row=0 if you also want to read 1st row)
+            for (var row = 1; row < rowData.length; row++) {
+                // Insert a row at the end of table
+                var newRow = tbodyEl.insertRow();
+                // Split by comma (;) to get column Array
+                rowColData = rowData[row].split(',');
+                // Loop on the row column Array
+                for (var col = 0; col < rowColData.length; col++) {
+                // Insert a cell at the end of the row
+                var newCell = newRow.insertCell();
+                newCell.innerHTML = rowColData[col];
+                }
+            }
+            });}
+
+            readCSVFile();
+       
+        
+});
+
+ 
+</script>
+<body>
+    <button onclick="topFunction()" id="myBtn" title="Voltar para o topo">Menu</button>
+
+    <header>
+        <h1>FAQ 24.1 - IC UFRJ</h1>
+        <nav>
+            <a href="#progressSection">Status</a>
+            <a href="#calendarSection">Calendário</a>
+            <a href="#classLocationSection">Locais de Aula</a>
+            <a href="#contactsSection">Contatos Úteis</a>
+            <a href="#busScheduleSection">Horário dos Circulares</a>
+        </nav>
+        
+    </header>
+
+    
+    <main>
+
+        <section class="progressSection">
+            <h3>Status</h3>
+
+            <ul id="progressList">
+                <li>Já se passou/passaram <span id="progress">0</span>% do período.</li>
+                <li>Faltam <span id="daysUntilEnd">0</span> dias até o fim do período.</li>
+                <!-- <li>Estamos no período de <span id="currentName">normal</span>, que acaba em <span id="currentEndingDate">dia</span>. </li> -->
+                <li>Faltam <span id="daysUntilClassDroppingSeasonStarts">0</span> dias até o período de trancamento.</li>
+
+            </ul>
+
+        </section>
+        <section id="calendarSection">
+            <h3>Calendário Acadêmico</h3>
+
+            <table>
+                <caption>24.2</caption>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Início</th>
+                        <th>Fim</th>
+                    </tr>
+                </thead>
+                    <tbody>
+                        <tr><td>Aulas</td><td>12/08/2024</td><td>14/12/2024</td></tr>
+                        <tr><td>Inscrição</td><td>12/08/2024</td><td>12/08/2024</td></tr>
+                        <tr><td>Alteração</td><td>12/08/2024</td><td>12/08/2024</td></tr>
+                        <tr><td>Trancamento</td><td>01/08/2024</td><td>01/08/2024</td></tr>
+                    </tbody>
+            </table>
+          
+            Para um calendário mais detalhado, acesse o <a target="_blank" noreferrer noopener href="https://xn--graduao-2wa9a.ufrj.br/images/_PR-1/CEG/Calendario-Academico/2024/SEI_3853458_Atos_academicos_2024.pdf">site da PR1</a>.
+        </section>
+        <section id="classLocationSection">
+            <h3>Locais de Aula</h3>
+            <table id="tblcsvdata"">
+                <thead>
+                  <tr>
+                    <th>Disciplina</th>
+                    <th>Professor(a,e)</th>
+                    <th>Sala</th>
+                    <th>Horário(s)</th>
+                 </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+        </section>
+        <section id="contactsSection">
+            <h3>Contatos Úteis</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                    <tbody id="contactsTable">
+                        <tr><td>COAA</td><td>coaa@ic.ufrj.br</td></tr>
+                        <tr><td>Coordenação</td><td>coord_grad@ic.ufrj.br</td></tr>
+                        <tr><td>Secretaria</td><td>secgrad@ic.ufrj.br</td></tr>
+                        <tr><td>Comissão de Estágio</td><td>estagio@ic.ufrj.br</td></tr>
+                        <tr><td>Comissão de Atividades Complementares</td><td>coac@ic.ufrj.br</td></tr>
+                        <tr><td>Centro Acadêmico</td><td>cainfo@ic.ufrj.br</td></tr>
+                    </tbody>
+            </table>
+        </section>
+        <section id="busScheduleSection">
+            <h3>Horário dos Ônibus Intercampi/Circulares</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rota</th>
+                        <th>Horário de Saída</th>
+                        <th>Local de Saída</th>
+                    </tr>
+                </thead>
+                    <tbody id="contactsTable">
+                        <tr><td>Lorem</td><td>ipsum</td><td>dolor sit amet.</td></tr>
+                        <tr><td>Lorem</td><td>ipsum</td><td>dolor sit amet.</td></tr>
+                        <tr><td>Lorem</td><td>ipsum</td><td>dolor sit amet.</td></tr>
+                        <tr><td>Lorem</td><td>ipsum</td><td>dolor sit amet.</td></tr>
+                        <tr><td>Lorem</td><td>ipsum</td><td>dolor sit amet.</td></tr>
+                        <tr><td>Lorem</td><td>ipsum</td><td>dolor sit amet.</td></tr>
+                    </tbody>
+            </table>
+        </section>       
+
+
+    </main>
+    <footer> </footer>
+
+    <script>
+        // Get the button
+        let mybutton = document.getElementById("myBtn");
+        
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function() {scrollFunction()};
+        
+        function scrollFunction() {
+          if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            mybutton.style.display = "block";
+          } else {
+            mybutton.style.display = "none";
+          }
+        }
+        
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+          document.body.scrollTop = 0;
+          document.documentElement.scrollTop = 0;
+        }
+        </script>
+    
+</body>
+</html>
